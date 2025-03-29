@@ -4,14 +4,14 @@ Token generation module for Daraja M-Pesa API.
 
 import os
 import base64
-import requests
 from dotenv import load_dotenv
+import httpx
 
 # Load environment variables
 load_dotenv()
 
 
-def get_access_token():
+async def get_access_token():
     """
     Get an access token from the Safaricom API.
 
@@ -37,16 +37,14 @@ def get_access_token():
     headers = {"Authorization": f"Basic {encoded_auth}"}
     params = {"grant_type": "client_credentials"}
 
-    try:
-        # Make the request
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-
-        # Parse and return the response
-        data = response.json()
-        return {
-            "access_token": data.get("access_token"),
-            "expires_in": data.get("expires_in"),
-        }
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"Error fetching access token: {str(e)}")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            data = response.json()
+            return {
+                "access_token": data.get("access_token"),
+                "expires_in": data.get("expires_in"),
+            }
+        except httpx.RequestException as e:
+            raise Exception(f"Error fetching access token: {str(e)}")

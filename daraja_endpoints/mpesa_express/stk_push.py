@@ -1,23 +1,24 @@
 import os
-import json
-import requests
-import logging
 from datetime import datetime
 import base64
 from typing import Dict, Any
-
-from ..auth.generate_access_token import get_access_token
+import httpx
+from daraja_endpoints.auth.generate_access_token import get_access_token
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-def initiate_stk_push(amount: int) -> Dict[str, Any]:
+async def initiate_stk_push(
+    access_token: str, amount: int, phone_number: int
+) -> Dict[str, Any]:
     """
     Initiate an STK Push transaction.
 
     Args:
+        access_token (str): Valid M-PESA access token
         amount (int): Amount to be paid
+        phone_number (str): Phone number of the customer
 
     Returns:
         Dict[str, Any]: M-PESA API response
@@ -26,13 +27,13 @@ def initiate_stk_push(amount: int) -> Dict[str, Any]:
         ValueError: If required environment variables are missing
         requests.RequestException: If the API request fails
     """
+
     # Get required environment variables
     business_shortcode = os.getenv("BUSINESS_SHORTCODE")
     passkey = os.getenv("PASSKEY")
-    phone_number = os.getenv("PHONE_NUMBER")
     callback_url = os.getenv("CALLBACK_URL")
     account_ref = os.getenv("ACCOUNT_REFERENCE")
-    base_url = os.getenv("BASE_URL", "https://sandbox.safaricom.co.ke")
+    base_url = os.getenv("BASE_URL")
 
     # Validate required variables
     if not all([business_shortcode, passkey, phone_number, callback_url, account_ref]):
@@ -45,9 +46,6 @@ def initiate_stk_push(amount: int) -> Dict[str, Any]:
     password = base64.b64encode(
         f"{business_shortcode}{passkey}{timestamp}".encode()
     ).decode()
-
-    # Get access token
-    access_token = get_access_token()["access_token"]
 
     # Prepare request
     url = f"{base_url}/mpesa/stkpush/v1/processrequest"
@@ -70,12 +68,16 @@ def initiate_stk_push(amount: int) -> Dict[str, Any]:
         "TransactionDesc": "Payment of goods/services",
     }
 
-    # Make API request
-    response = requests.post(url, headers=headers, json=payload)
-
-    try:
-        response.raise_for_status()
-        data = response.json()
-        return data
-    except requests.exceptions.RequestException as e:
-        raise
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(url, headers=headers, json=payload)
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            return {
+                "error": "STK Push failed",
+                "status_code": e.response.status_code,
+                "details": e.response.json(),
+            }
+        except httpx.RequestError as e:
+            return {"error": "Request error", "details": str(e)}
