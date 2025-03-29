@@ -93,6 +93,14 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 
 > Note: For development, use the sandbox environment. Switch to the production URL when ready.
 
+## Setup
+
+### Safaricom Daraja API Credentials
+
+1. Register for a Safaricom Developer account at [developer.safaricom.co.ke](https://developer.safaricom.co.ke)
+2. Create a new app to get your Consumer Key and Secret
+3. For production access, you'll need to go through Safaricom's verification process
+
 ## Tools
 
 ### Payment Tools
@@ -197,14 +205,6 @@ Generate a prompt to create and run a workflow for document processing.
 ### Resources
 
 Currently, no resources are available.
-
-## Setup
-
-### Safaricom Daraja API Credentials
-
-1. Register for a Safaricom Developer account at [developer.safaricom.co.ke](https://developer.safaricom.co.ke)
-2. Create a new app to get your Consumer Key and Secret
-3. For production access, you'll need to go through Safaricom's verification process
 
 ## Usage
 
