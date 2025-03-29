@@ -271,6 +271,18 @@ Generate a prompt to initiate an STK Push payment.
 
 **Returns:** Formatted prompt for STK Push initiation
 
+**Example:**
+
+```python
+# Example usage
+prompt = await stk_push_prompt(
+    phone_number="254712345678",
+    amount=1000,
+    purpose="Payment for services"
+)
+# Returns: "I want you to initiate an M-Pesa STK Push payment request. Here are the details User phone number: 254712345678, Amount: 1000, Purpose: Payment for services"
+```
+
 #### create_and_run_workflow_prompt
 
 Generate a prompt to create and run a workflow for document processing.
@@ -280,6 +292,16 @@ Generate a prompt to create and run a workflow for document processing.
 - `user_input` (str): The user's processing requirements
 
 **Returns:** Formatted prompt for workflow creation and execution
+
+**Example:**
+
+```python
+# Example usage
+prompt = await create_and_run_workflow_prompt(
+    user_input="Process all PDF invoices from the invoices folder and store them in the processed folder"
+)
+# Returns: "The user wants to achieve Process all PDF invoices from the invoices folder and store them in the processed folder. Assist them by creating a source connector and a destination connector, then setting up the workflow and executing it."
+```
 
 ### Resources
 
