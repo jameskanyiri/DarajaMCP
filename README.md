@@ -101,6 +101,92 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 2. Create a new app to get your Consumer Key and Secret
 3. For production access, you'll need to go through Safaricom's verification process
 
+## Usage
+
+### Testing with Claude Desktop
+
+1. **Install Claude Desktop**
+
+   - Download and install the latest version from [Claude Desktop](https://claude.ai/desktop)
+   - Make sure you're running the latest version
+
+2. **Configure Claude Desktop**
+
+   - Open your Claude Desktop configuration file:
+
+     ```bash
+     # On MacOS/Linux
+     code ~/Library/Application\ Support/Claude/claude_desktop_config.json
+
+     # On Windows
+     code %APPDATA%\Claude\claude_desktop_config.json
+     ```
+
+   - Create the file if it doesn't exist
+
+3. **Add Server Configuration**
+   Choose one of the following configurations:
+
+   #### Anthropic's Recommended Format
+
+   ```json
+   {
+     "mcpServers": {
+       "daraja": {
+         "command": "uv",
+         "args": [
+           "--directory",
+           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
+           "run",
+           "main.py"
+         ]
+       }
+     }
+   }
+   ```
+
+   #### Working Configuration (Tested)
+
+   ```json
+   {
+     "mcpServers": {
+       "DarajaMCP": {
+         "command": "/ABSOLUTE/PATH/TO/PARENT/.local/bin/uv",
+         "args": [
+           "--directory",
+           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
+           "run",
+           "main.py"
+         ]
+       }
+     }
+   }
+   ```
+
+   > Note:
+   >
+   > - Replace `/ABSOLUTE/PATH/TO/PARENT` with your actual path
+   > - To find the full path to `uv`, run:
+
+   ```bash
+   # On MacOS/Linux
+   which uv
+
+   # On Windows
+   where uv
+   ```
+
+4. **Verify Configuration**
+   - Save the configuration file
+   - Restart Claude Desktop
+   - Look for the hammer 🔨 icon in the interface
+   - Click it to see the available tools:
+     - generate_access_token
+     - stk_push (Future Implementation)
+     - query_transaction_status (Future Implementation)
+     - b2c_payment (Future Implementation)
+     - account_balance (Future Implementation)
+
 ## Tools
 
 ### Payment Tools
@@ -205,92 +291,6 @@ Generate a prompt to create and run a workflow for document processing.
 ### Resources
 
 Currently, no resources are available.
-
-## Usage
-
-### Testing with Claude Desktop
-
-1. **Install Claude Desktop**
-
-   - Download and install the latest version from [Claude Desktop](https://claude.ai/desktop)
-   - Make sure you're running the latest version
-
-2. **Configure Claude Desktop**
-
-   - Open your Claude Desktop configuration file:
-
-     ```bash
-     # On MacOS/Linux
-     code ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-     # On Windows
-     code %APPDATA%\Claude\claude_desktop_config.json
-     ```
-
-   - Create the file if it doesn't exist
-
-3. **Add Server Configuration**
-   Choose one of the following configurations:
-
-   #### Anthropic's Recommended Format
-
-   ```json
-   {
-     "mcpServers": {
-       "daraja": {
-         "command": "uv",
-         "args": [
-           "--directory",
-           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
-           "run",
-           "main.py"
-         ]
-       }
-     }
-   }
-   ```
-
-   #### Working Configuration (Tested)
-
-   ```json
-   {
-     "mcpServers": {
-       "DarajaMCP": {
-         "command": "/ABSOLUTE/PATH/TO/PARENT/.local/bin/uv",
-         "args": [
-           "--directory",
-           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
-           "run",
-           "main.py"
-         ]
-       }
-     }
-   }
-   ```
-
-   > Note:
-   >
-   > - Replace `/ABSOLUTE/PATH/TO/PARENT` with your actual path
-   > - To find the full path to `uv`, run:
-
-   ```bash
-   # On MacOS/Linux
-   which uv
-
-   # On Windows
-   where uv
-   ```
-
-4. **Verify Configuration**
-   - Save the configuration file
-   - Restart Claude Desktop
-   - Look for the hammer 🔨 icon in the interface
-   - Click it to see the available tools:
-     - generate_access_token
-     - stk_push (Future Implementation)
-     - query_transaction_status (Future Implementation)
-     - b2c_payment (Future Implementation)
-     - account_balance (Future Implementation)
 
 ## License
 
