@@ -13,6 +13,61 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 - ✅ **Secure & Scalable** – Implements OAuth authentication and supports enterprise-grade transaction handling
 - ✅ **Flexible Automation** – AI agents can query account balances, generate invoices, and automate reconciliation
 
+## Requirements
+
+- Python 3.12
+
+## Installation
+
+### Step 1: Setting Up Your Environment
+
+1. **Install uv Package Manager**
+
+   For Mac/Linux:
+
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+   For Windows (PowerShell):
+
+   ```powershell
+   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+
+2. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/jameskanyiri/DarajaMCP.git
+   cd DarajaMCP
+   ```
+
+3. **Create and Activate a Virtual Environment**
+
+   ```bash
+   uv venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
+   ✅ Expected Output: Your terminal prompt should change, indicating the virtual environment is activated.
+
+4. **Install Dependencies**
+   ```bash
+   uv sync
+   ```
+
+### Step 2: Setting up Environment Variables
+
+1. Copy the example environment file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Update the `.env` file with your actual credentials and configuration values.
+
+> Note: For development, use the sandbox environment. Switch to the production URL when ready.
+
 ## What is an MCP Server?
 
 MCP (Model Context Protocol) servers provide capabilities for LLMs to interact with external systems. MCP servers can provide three main types of capabilities:
@@ -89,62 +144,6 @@ Check account balance.
 
 **Returns:** Account balance information
 
-## Requirements
-
-- Python 3.13+
-- MCP SDK 1.2.0+
-- Requests
-- python-dotenv
-- httpx
-
-## Installation
-
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
-
-1. Install uv:
-
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-2. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/DarajaMCP.git
-   cd DarajaMCP
-   ```
-
-3. Create a virtual environment and activate it:
-
-   ```bash
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-
-4. Install dependencies:
-   ```bash
-   uv pip install -e .
-   ```
-
-## Configuration
-
-Create a `.env` file in the root directory with the following variables:
-
-```
-MPESA_CONSUMER_KEY="your_consumer_key"
-MPESA_CONSUMER_SECRET="your_consumer_secret"
-PASSKEY="your_passkey"
-BUSINESS_SHORTCODE="your_shortcode"
-CALLBACK_URL="your_callback_url"
-BASE_URL="https://sandbox.safaricom.co.ke"
-PHONE_NUMBER="your_phone_number"
-ACCOUNT_REFERENCE="your_account_reference"
-TRANSACTION_TYPE="CustomerPayBillOnline"
-TRANSACTION_DESC="your_transaction_description"
-```
-
-> Note: For development, use the sandbox environment. Switch to the production URL when ready.
-
 ## Setup
 
 ### Safaricom Daraja API Credentials
@@ -153,118 +152,91 @@ TRANSACTION_DESC="your_transaction_description"
 2. Create a new app to get your Consumer Key and Secret
 3. For production access, you'll need to go through Safaricom's verification process
 
-### Usage with Claude Desktop
-
-Add the following to your `claude_desktop_config.json`:
-
-#### Docker (Recommended)
-
-```json
-{
-  "mcpServers": {
-    "daraja": {
-      "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "-e",
-        "MPESA_CONSUMER_KEY",
-        "-e",
-        "MPESA_CONSUMER_SECRET",
-        "-e",
-        "PASSKEY",
-        "-e",
-        "BUSINESS_SHORTCODE",
-        "-e",
-        "BASE_URL",
-        "yourusername/darajamcp"
-      ],
-      "env": {
-        "MPESA_CONSUMER_KEY": "<YOUR_CONSUMER_KEY>",
-        "MPESA_CONSUMER_SECRET": "<YOUR_CONSUMER_SECRET>",
-        "PASSKEY": "<YOUR_PASSKEY>",
-        "BUSINESS_SHORTCODE": "<YOUR_SHORTCODE>",
-        "BASE_URL": "https://sandbox.safaricom.co.ke"
-      }
-    }
-  }
-}
-```
-
-#### Direct Python Module
-
-```json
-{
-  "mcpServers": {
-    "daraja": {
-      "command": "python",
-      "args": ["-m", "main"],
-      "cwd": "/path/to/DarajaMCP",
-      "env": {
-        "MPESA_CONSUMER_KEY": "<YOUR_CONSUMER_KEY>",
-        "MPESA_CONSUMER_SECRET": "<YOUR_CONSUMER_SECRET>",
-        "PASSKEY": "<YOUR_PASSKEY>",
-        "BUSINESS_SHORTCODE": "<YOUR_SHORTCODE>",
-        "BASE_URL": "https://sandbox.safaricom.co.ke"
-      }
-    }
-  }
-}
-```
-
-### Environment Variables
-
-- `MPESA_CONSUMER_KEY`: Your Safaricom API consumer key (required)
-- `MPESA_CONSUMER_SECRET`: Your Safaricom API consumer secret (required)
-- `PASSKEY`: Your Safaricom API passkey (required for STK Push)
-- `BUSINESS_SHORTCODE`: Your M-Pesa till/paybill number (required)
-- `BASE_URL`: Safaricom API base URL (defaults to sandbox URL)
-- `CALLBACK_URL`: Callback URL for notifications (optional)
-
 ## Usage
 
-### Basic Authentication Example
+### Testing with Claude Desktop
 
-Here's a basic example of how to use the library to generate an access token:
+1. **Install Claude Desktop**
 
-```python
-from daraja.auth.generate_access_token import get_access_token
+   - Download and install the latest version from [Claude Desktop](https://claude.ai/desktop)
+   - Make sure you're running the latest version
 
-# Get an access token
-try:
-    token_info = get_access_token()
-    print(f"Access Token: {token_info['access_token']}")
-    print(f"Expires in: {token_info['expires_in']} seconds")
-except Exception as e:
-    print(f"Error: {e}")
-```
+2. **Configure Claude Desktop**
 
-### Connecting to an MCP Client
+   - Open your Claude Desktop configuration file:
 
-To use Daraja MCP with a compatible client (like Claude for Desktop):
+     ```bash
+     # On MacOS/Linux
+     code ~/Library/Application\ Support/Claude/claude_desktop_config.json
 
-1. Start the MCP server:
+     # On Windows
+     code %APPDATA%\Claude\claude_desktop_config.json
+     ```
 
-   ```bash
-   python main.py
+   - Create the file if it doesn't exist
+
+3. **Add Server Configuration**
+   Choose one of the following configurations:
+
+   #### Anthropic's Recommended Format
+
+   ```json
+   {
+     "mcpServers": {
+       "daraja": {
+         "command": "uv",
+         "args": [
+           "--directory",
+           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
+           "run",
+           "main.py"
+         ]
+       }
+     }
+   }
    ```
 
-2. Connect your MCP client to the server using the provided URL.
+   #### Working Configuration (Tested)
 
-3. Your AI assistant can now use the provided tools to interact with M-Pesa services.
+   ```json
+   {
+     "mcpServers": {
+       "DarajaMCP": {
+         "command": "/ABSOLUTE/PATH/TO/PARENT/.local/bin/uv",
+         "args": [
+           "--directory",
+           "/ABSOLUTE/PATH/TO/PARENT/FOLDER/DarajaMCP",
+           "run",
+           "main.py"
+         ]
+       }
+     }
+   }
+   ```
 
-## Development
+   > Note:
+   >
+   > - Replace `/ABSOLUTE/PATH/TO/PARENT` with your actual path
+   > - To find the full path to `uv`, run:
 
-This project uses Python 3.13 and uv for dependency management. Make sure you have them installed before contributing.
+   ```bash
+   # On MacOS/Linux
+   which uv
 
-### Docker Build
+   # On Windows
+   where uv
+   ```
 
-To build a Docker image for the project:
-
-```bash
-docker build -t yourusername/darajamcp .
-```
+4. **Verify Configuration**
+   - Save the configuration file
+   - Restart Claude Desktop
+   - Look for the hammer 🔨 icon in the interface
+   - Click it to see the available tools:
+     - generate_access_token
+     - stk_push (Future Implementation)
+     - query_transaction_status (Future Implementation)
+     - b2c_payment (Future Implementation)
+     - account_balance (Future Implementation)
 
 ## License
 
