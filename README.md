@@ -41,6 +41,7 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 ## Requirements
 
 - Python 3.12
+- Safaricom Daraja API Credentials (Consumer Key and Secret)
 
 ## Installation
 
@@ -92,14 +93,6 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 2. Update the `.env` file with your actual credentials and configuration values.
 
 > Note: For development, use the sandbox environment. Switch to the production URL when ready.
-
-## Setup
-
-### Safaricom Daraja API Credentials
-
-1. Register for a Safaricom Developer account at [developer.safaricom.co.ke](https://developer.safaricom.co.ke)
-2. Create a new app to get your Consumer Key and Secret
-3. For production access, you'll need to go through Safaricom's verification process
 
 ## Usage
 
