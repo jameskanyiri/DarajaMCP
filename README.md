@@ -2,6 +2,21 @@
 
 A Model Context Protocol (MCP) server designed to integrate AI applications with Safaricom's Daraja API, enabling seamless interaction with M-Pesa services.
 
+> ⚠️ **Warning: Not Production Ready**
+>
+> This project is currently in development and is not recommended for production use. It's designed for:
+>
+> - Learning and experimentation
+> - Development and testing environments
+> - Proof of concept implementations
+>
+> For production use, please ensure:
+>
+> - Thorough security testing
+> - Proper error handling
+> - Complete implementation of all planned features
+> - Compliance with Safaricom's production requirements
+
 ## Overview
 
 Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financial automation accessible and efficient. By standardizing the connection between LLMs (Large Language Models) and financial transactions, Daraja MCP allows AI-driven applications to process payments, retrieve transaction data, and automate financial workflows effortlessly.
