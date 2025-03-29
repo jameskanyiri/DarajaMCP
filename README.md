@@ -17,6 +17,16 @@ A Model Context Protocol (MCP) server designed to integrate AI applications with
 > - Complete implementation of all planned features
 > - Compliance with Safaricom's production requirements
 
+## What is an MCP Server?
+
+MCP (Model Context Protocol) servers provide capabilities for LLMs to interact with external systems. MCP servers can provide three main types of capabilities:
+
+- **Resources**: File-like data that can be read by clients (like API responses)
+- **Tools**: Functions that can be called by the LLM (with user approval)
+- **Prompts**: Pre-written templates that help users accomplish specific tasks
+
+Daraja MCP specifically leverages this architecture to connect AI systems with Safaricom's Daraja M-Pesa API.
+
 ## Overview
 
 Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financial automation accessible and efficient. By standardizing the connection between LLMs (Large Language Models) and financial transactions, Daraja MCP allows AI-driven applications to process payments, retrieve transaction data, and automate financial workflows effortlessly.
@@ -27,16 +37,6 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 - ✅ **Standardized Integration** – MCP ensures compatibility with multiple AI tools
 - ✅ **Secure & Scalable** – Implements OAuth authentication and supports enterprise-grade transaction handling
 - ✅ **Flexible Automation** – AI agents can query account balances, generate invoices, and automate reconciliation
-
-## What is an MCP Server?
-
-MCP (Model Context Protocol) servers provide capabilities for LLMs to interact with external systems. MCP servers can provide three main types of capabilities:
-
-- **Resources**: File-like data that can be read by clients (like API responses)
-- **Tools**: Functions that can be called by the LLM (with user approval)
-- **Prompts**: Pre-written templates that help users accomplish specific tasks
-
-Daraja MCP specifically leverages this architecture to connect AI systems with Safaricom's Daraja M-Pesa API.
 
 ## Requirements
 
