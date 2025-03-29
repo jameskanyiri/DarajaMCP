@@ -95,69 +95,108 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
 
 ## Tools
 
-### generate_access_token
+### Payment Tools
 
-Generate an OAuth access token for the Daraja API.
+#### stk_push
 
-**Inputs:**
-
-- None (uses environment variables for authentication)
-
-**Returns:** Access token information including:
-
-- `access_token` (string): The OAuth access token
-- `expires_in` (number): Token validity period in seconds
-
-### stk_push (Future Implementation)
-
-Initiate an M-Pesa STK push request.
+Initiate an M-Pesa STK push request to prompt the customer to authorize a payment on their mobile device.
 
 **Inputs:**
 
-- `phone_number` (string): The customer's phone number (format: 254XXXXXXXXX)
-- `amount` (number): Transaction amount
-- `account_reference` (string): Reference ID for the transaction
-- `transaction_desc` (optional string): Description of the transaction
+- `amount` (int): The amount to be paid
+- `phone_number` (int): The phone number of the customer
 
-**Returns:** STK push response including:
+**Returns:** JSON formatted M-PESA API response
 
-- `MerchantRequestID` (string): Unique request identifier
-- `CheckoutRequestID` (string): Checkout request identifier
-- `ResponseDescription` (string): Description of the response
+### Document Processing Tools
 
-### query_transaction_status (Future Implementation)
+#### create_source
 
-Check the status of an M-Pesa transaction.
+Create a connector from data source to unstructured server for processing.
 
 **Inputs:**
 
-- `checkout_request_id` (string): The checkout request ID from STK push
-- `transaction_id` (optional string): M-Pesa transaction ID
+- `connector_name` (str): The name of the source connector to create
 
-**Returns:** Transaction status details
+**Returns:** Source connector details including name and ID
 
-### b2c_payment (Future Implementation)
+#### create_destination
 
-Initiate a Business to Customer payment.
-
-**Inputs:**
-
-- `phone_number` (string): Recipient's phone number
-- `amount` (number): Amount to send
-- `remarks` (string): Comments about the transaction
-- `occasion` (optional string): Description of the occasion
-
-**Returns:** B2C payment response details
-
-### account_balance (Future Implementation)
-
-Check account balance.
+Create a connector from unstructured server to destination for data storage.
 
 **Inputs:**
 
-- `party_a` (optional string): The organization shortcode (defaults to BUSINESS_SHORTCODE env var)
+- `connector_name` (str): The name of the destination connector to create
 
-**Returns:** Account balance information
+**Returns:** Destination connector details including name and ID
+
+#### create_workflow
+
+Create a workflow to process data from source connector to destination connector.
+
+**Inputs:**
+
+- `workflow_name` (str): The name of the workflow to create
+- `source_id` (str): The ID of the source connector
+- `destination_id` (str): The ID of the destination connector
+
+**Returns:** Workflow details including name, ID, status, type, sources, destinations, and schedule
+
+#### run_workflow
+
+Execute a workflow.
+
+**Inputs:**
+
+- `workflow_id` (str): The ID of the workflow to run
+
+**Returns:** Workflow execution status
+
+#### get_workflow_details
+
+Get detailed information about a workflow.
+
+**Inputs:**
+
+- `workflow_id` (str): The ID of the workflow to get details
+
+**Returns:** Workflow details including name, ID, and status
+
+#### fetch_documents
+
+Fetch documents analyzed during workflow execution.
+
+**Inputs:** None
+
+**Returns:** List of analyzed documents
+
+### Prompts
+
+#### stk_push_prompt
+
+Generate a prompt to initiate an STK Push payment.
+
+**Inputs:**
+
+- `phone_number` (str): The customer's phone number
+- `amount` (int): The amount to be paid
+- `purpose` (str): The purpose of the payment
+
+**Returns:** Formatted prompt for STK Push initiation
+
+#### create_and_run_workflow_prompt
+
+Generate a prompt to create and run a workflow for document processing.
+
+**Inputs:**
+
+- `user_input` (str): The user's processing requirements
+
+**Returns:** Formatted prompt for workflow creation and execution
+
+### Resources
+
+Currently, no resources are available.
 
 ## Setup
 
