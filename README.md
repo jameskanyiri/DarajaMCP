@@ -180,7 +180,7 @@ Daraja MCP is a bridge between AI, fintech, and M-Pesa, making AI-driven financi
      - b2c_payment (Future Implementation)
      - account_balance (Future Implementation)
 
-## Tools
+## Tools and Prompts
 
 ### Payment Tools
 
@@ -208,6 +208,34 @@ Generate a QR code for a payment request that customers can scan to make payment
 - `credit_party_identifier` (str): Credit Party Identifier (Mobile Number, Business Number, Agent Till, Paybill, or Merchant Buy Goods)
 
 **Returns:** JSON formatted M-PESA API response containing the QR code data
+
+### Payment Prompts
+
+#### stk_push_prompt
+
+Generate a prompt for initiating an M-Pesa STK push payment request.
+
+**Inputs:**
+
+- `phone_number` (str): The phone number of the customer
+- `amount` (int): The amount to be paid
+- `purpose` (str): The purpose of the payment
+
+**Returns:** Formatted prompt string for STK push request
+
+#### generate_qr_code_prompt
+
+Generate a prompt for creating an M-Pesa QR code payment request.
+
+**Inputs:**
+
+- `merchant_name` (str): Name of the merchant/business
+- `amount` (int): Amount to be paid
+- `transaction_type` (str): Type of transaction (BG for Buy Goods, WA for Wallet, PB for Paybill, SM for Send Money, SB for Send to Business)
+- `identifier` (str): The recipient identifier (till number, paybill, phone number)
+- `reference` (str, optional): Transaction reference number. If not provided, a default will be used.
+
+**Returns:** Formatted prompt string for QR code generation
 
 ### Document Processing Tools
 
@@ -272,30 +300,6 @@ Fetch documents analyzed during workflow execution.
 **Returns:** List of analyzed documents
 
 ### Prompts
-
-#### stk_push_prompt
-
-Generate a prompt to initiate an STK Push payment.
-
-**Inputs:**
-
-- `phone_number` (str): The customer's phone number
-- `amount` (int): The amount to be paid
-- `purpose` (str): The purpose of the payment
-
-**Returns:** Formatted prompt for STK Push initiation
-
-**Example:**
-
-```python
-# Example usage
-prompt = await stk_push_prompt(
-    phone_number="254712345678",
-    amount=1000,
-    purpose="Payment for services"
-)
-# Returns: "I want you to initiate an M-Pesa STK Push payment request. Here are the details User phone number: 254712345678, Amount: 1000, Purpose: Payment for services"
-```
 
 #### create_and_run_workflow_prompt
 
