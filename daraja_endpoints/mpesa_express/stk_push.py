@@ -3,7 +3,6 @@ from datetime import datetime
 import base64
 from typing import Dict, Any
 import httpx
-from daraja_endpoints.auth.generate_access_token import get_access_token
 from dotenv import load_dotenv
 
 load_dotenv()

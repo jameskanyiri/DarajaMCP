@@ -8,6 +8,8 @@ import json
 import asyncio
 from file_processing.unstructured_workflow import UnstructuredPipeline
 from database.database import get_analyzed_documents
+from daraja_endpoints.dynamic_qr.qr_code import qr_code
+from typing import Literal
 
 
 # Define application context
@@ -76,7 +78,11 @@ async def app_lifespan(app: FastMCP) -> AsyncIterator[AppContext]:
 # Initialize the MCP server with lifespan
 mcp = FastMCP("Daraja MCP", "1.0.0", lifespan=app_lifespan)
 
+# ===============================================
+# MPESA TOOLS
+# ===============================================
 
+# STK Push
 @mcp.tool()
 async def stk_push(ctx: Context, amount: int, phone_number: int) -> str:
     """
@@ -102,6 +108,62 @@ async def stk_push(ctx: Context, amount: int, phone_number: int) -> str:
 
     except Exception as e:
         return f"Failed to initiate STK Push: {str(e)}"
+
+
+# QR Code
+@mcp.tool()
+async def generate_qr_code(
+    ctx: Context,
+    merchant_name: str,
+    transaction_reference_no: str,
+    amount: int,
+    transaction_type: Literal["BG", "WA", "PB", "SM", "SB"],
+    credit_party_identifier: str,
+):
+    """
+    Generates a QR code for a payment request.
+
+    Args:
+        access_token (str): Valid M-PESA access token.
+
+        merchant_name (str): Name of the company/M-Pesa Merchant Name.
+
+        transaction_reference_no (str): Transaction reference number.
+
+        amount (int): The total amount for the sale/transaction.
+
+        transaction_type (Literal["BG", "WA", "PB", "SM", "SB"]): Transaction type.
+
+        credit_party_identifier (str): Credit Party Identifier. Can be a Mobile Number, Business Number, Agent Till, Paybill or Business number, or Merchant Buy Goods.
+
+    Returns:
+        str: JSON formatted M-PESA API response
+    """
+    try:
+        # Retrieve stored token
+        app_ctx = ctx.request_context.lifespan_context
+        access_token = app_ctx.access_token
+    
+
+        # Generate QR code
+        response = await qr_code(
+            access_token,
+            merchant_name,
+            transaction_reference_no,
+            amount,
+            transaction_type,
+            credit_party_identifier,
+        )
+        # Return response
+        return json.dumps(response, indent=2)
+
+    except Exception as e:
+        return f"Failed to generate QR code: {str(e)}"
+
+
+# ===============================================
+# UNSTRUCTURED TOOLS
+# ===============================================
 
 
 @mcp.tool()

@@ -195,6 +195,20 @@ Initiate an M-Pesa STK push request to prompt the customer to authorize a paymen
 
 **Returns:** JSON formatted M-PESA API response
 
+#### generate_qr_code
+
+Generate a QR code for a payment request that customers can scan to make payments.
+
+**Inputs:**
+
+- `merchant_name` (str): Name of the company/M-Pesa Merchant Name
+- `transaction_reference_no` (str): Transaction reference number
+- `amount` (int): The total amount for the sale/transaction
+- `transaction_type` (Literal["BG", "WA", "PB", "SM", "SB"]): Transaction type
+- `credit_party_identifier` (str): Credit Party Identifier (Mobile Number, Business Number, Agent Till, Paybill, or Merchant Buy Goods)
+
+**Returns:** JSON formatted M-PESA API response containing the QR code data
+
 ### Document Processing Tools
 
 #### create_source

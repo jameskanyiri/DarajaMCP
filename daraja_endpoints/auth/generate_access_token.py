@@ -10,10 +10,10 @@ import httpx
 # Load environment variables
 load_dotenv()
 
-
+#Function to generate access token
 async def get_access_token():
     """
-    Get an access token from the Safaricom API.
+    Get an access token from the Mpesa Auth API.
 
     Returns:
         dict: A dictionary containing the access token and expiry time.
