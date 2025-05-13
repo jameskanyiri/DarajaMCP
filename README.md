@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/jameskanyiri-darajamcp-badge.png)](https://mseep.ai/app/jameskanyiri-darajamcp)
+
 # Daraja MCP
 
 A Model Context Protocol (MCP) server designed to integrate AI applications with Safaricom's Daraja API, enabling seamless interaction with M-Pesa services.
