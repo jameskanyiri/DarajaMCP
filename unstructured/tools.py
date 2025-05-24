@@ -1,3 +1,4 @@
+import json
 from mcp.server.fastmcp import Context
 from database.database import get_analyzed_documents
 
@@ -14,11 +15,14 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        unstructured_pipeline = (
-            ctx.request_context.lifespan_context.unstructured_pipeline
-        )
-        response = await unstructured_pipeline.create_source_connector(connector_name)
-        return f"Source Connector name: {response.name} \n Source Connector id: {response.id}"
+        try:
+            unstructured_pipeline = (
+                ctx.request_context.lifespan_context.unstructured_pipeline
+            )
+            response = await unstructured_pipeline.create_source_connector(connector_name)
+            return f"Source Connector name: {response.name} \n Source Connector id: {response.id}"
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def create_destination(ctx: Context, connector_name: str):
@@ -31,13 +35,16 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        unstructured_pipeline = (
-            ctx.request_context.lifespan_context.unstructured_pipeline
-        )
-        response = await unstructured_pipeline.create_destination_connector(
-            connector_name
-        )
-        return f"Connector name: {response.name} \n Connector id: {response.id}"
+        try:
+            unstructured_pipeline = (
+                ctx.request_context.lifespan_context.unstructured_pipeline
+            )
+            response = await unstructured_pipeline.create_destination_connector(
+                connector_name
+            )
+            return f"Connector name: {response.name} \n Connector id: {response.id}"
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def create_workflow(
@@ -54,13 +61,16 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        unstructured_pipeline = (
-            ctx.request_context.lifespan_context.unstructured_pipeline
-        )
-        response = await unstructured_pipeline.create_workflow_unstructured(
-            workflow_name, source_id, destination_id
-        )
-        return f"Workflow name: {response.name} \n Workflow id: {response.id} \n Workflow status: {response.status} \n Workflow type: {response.workflow_type} \n Source(s): {response.sources} \n Destination(s): {response.destinations} \n Schedule(s): {response.schedule.crontab_entries}"
+        try:
+            unstructured_pipeline = (
+                ctx.request_context.lifespan_context.unstructured_pipeline
+            )
+            response = await unstructured_pipeline.create_workflow_unstructured(
+                workflow_name, source_id, destination_id
+            )
+            return f"Workflow name: {response.name} \n Workflow id: {response.id} \n Workflow status: {response.status} \n Workflow type: {response.workflow_type} \n Source(s): {response.sources} \n Destination(s): {response.destinations} \n Schedule(s): {response.schedule.crontab_entries}"
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def run_workflow(ctx: Context, workflow_id: str):
@@ -73,11 +83,14 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        unstructured_pipeline = (
-            ctx.request_context.lifespan_context.unstructured_pipeline
-        )
-        response = await unstructured_pipeline.run_workflow_unstructured(workflow_id)
-        return f"{response}"
+        try:
+            unstructured_pipeline = (
+                ctx.request_context.lifespan_context.unstructured_pipeline
+            )
+            response = await unstructured_pipeline.run_workflow_unstructured(workflow_id)
+            return f"{response}"
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def get_workflow_details(ctx: Context, workflow_id: str):
@@ -90,11 +103,14 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        unstructured_pipeline = (
-            ctx.request_context.lifespan_context.unstructured_pipeline
-        )
-        response = await unstructured_pipeline.get_workflow(workflow_id)
-        return f"Workflow name: {response.name} \n Workflow id: {response.id} \n Workflow status: {response.status}"
+        try:
+            unstructured_pipeline = (
+                ctx.request_context.lifespan_context.unstructured_pipeline
+            )
+            response = await unstructured_pipeline.get_workflow(workflow_id)
+            return f"Workflow name: {response.name} \n Workflow id: {response.id} \n Workflow status: {response.status}"
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def fetch_documents():
@@ -104,4 +120,7 @@ def register_unstructured_tools(mcp):
         Returns:
             str: String
         """
-        return get_analyzed_documents()
+        try:
+            return get_analyzed_documents()
+        except Exception as e:
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
