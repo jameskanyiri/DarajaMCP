@@ -1,5 +1,11 @@
 # Daraja MCP
 
+> 🚨 **Important Notice: Repository Moved**
+>
+> This project has moved to a new repository. If you're looking to contribute or access the latest version, please visit:
+>
+> [https://github.com/paylinkmcp/paylink](https://github.com/paylinkmcp/paylink)
+
 A Model Context Protocol (MCP) server designed to integrate AI applications with Safaricom's Daraja API, enabling seamless interaction with M-Pesa services.
 
 > ⚠️ **Warning: Not Production Ready**
