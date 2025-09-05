@@ -24,7 +24,7 @@ def register_mpesa_tools(mcp):
             response = await initiate_stk_push(access_token, amount, phone_number)
             return json.dumps(response, indent=2)
         except Exception as e:
-            return f"Failed to initiate STK Push: {str(e)}"
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
 
     @mcp.tool()
     async def generate_qr_code(
@@ -61,4 +61,4 @@ def register_mpesa_tools(mcp):
             )
             return json.dumps(response, indent=2)
         except Exception as e:
-            return f"Failed to generate QR code: {str(e)}"
+            return json.dumps({"error": {"type": e.__class__.__name__, "message": str(e)}}, indent=2)
