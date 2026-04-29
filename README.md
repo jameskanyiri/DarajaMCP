@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/jameskanyiri-darajamcp-badge.png)](https://mseep.ai/app/jameskanyiri-darajamcp)
+
 # Daraja MCP
 
 > 🚨 **Important Notice: Repository Moved**
